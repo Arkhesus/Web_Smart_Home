@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonjour</title>
+</head>
+<body>
+    <form onsubmit="" method="post">
+        <div>
+            {% for category in categories%}
+                <input type="checkbox">{{category.name}}</input><br>
+            {%endfor%}
+        </div>
+        <p>--------------------------------</p>
+        <div>
+            {% for room in rooms%}
+                <input type="checkbox" id="{{room.name}}" >{{room.name}}</input><br>
+            {%endfor%}
+        </div>
+
+        <button type="button">Filter</button>
+
+    </form>
+
+    {% for sensor in sensors %}
+        <div> 
+            <h3>{{sensor.name}}</h3>
+            <h5>Category : {{sensor.category}}</h5>
+            <h5>Room : {{sensor.room}}</h5>
+
+            <button type="button" id="{{sensor.name}}">Activate {{sensor.name}}</button>
+            <form action = "/update/{{sensor.name}}">
+                <button onclick= "/update/{{sensor.name}}">Update</button>
+            </form>
+            
+        </div>
+    {%endfor%}
+
+</body>
+</html>
