@@ -6,14 +6,18 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Category;
 use App\Entity\Room;
 use App\Entity\Sensors;
+use PhpParser\Node\Name;
 
 class Update extends AbstractController
 {
 
-    public function display($name){
+    public function display($name, Request $request){
 
         // $this->AddCategory(1, "Lumiere");
         // $this->AddRoom(2, "Laura's bedroom");
@@ -28,15 +32,19 @@ class Update extends AbstractController
         
         if (!$sensor) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No product found for id '.$name
             );
         }
+
+        $form = $this->createForms($sensor, $request, $name);
 
 
         return $this->render('update.twig', [
             "sensor" => $sensor,
+            'formUpdate' => $form->createView()
         ]);
     }
+    
 
     public function AddCategory(string $name, string $newCategory){
         $entityManager = $this->getDoctrine()->getManager();
@@ -53,6 +61,28 @@ class Update extends AbstractController
             $entityManager->flush();
         }
 
+    }
+
+    public function createForms(Sensors $sensor, Request $request, string $name) {
+        
+        $form = $this->createFormBuilder($sensor)
+            ->add('Category' , TextType::class)
+            ->add('Room', TextType::class)
+            ->add('save', SubmitType::class, [
+                'label' => 'Update ' .$name
+            ])
+            ->getForm();
+
+        $form ->handleRequest($request);
+
+      
+        dump($sensor);
+
+        $this->AddRoom($sensor->getName(), $sensor->getRoom());
+        $this->AddCategory($sensor->getName(), $sensor->getCategory());
+
+
+        return $form;
     }
 
     public function AddRoom(string $name, string $newRoom){
@@ -158,18 +188,7 @@ class Update extends AbstractController
         $entityManager->flush();
     }
 
-    public function CreateSensor(string $name, string $category, string $room)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
 
-        $sensor = new Sensors();
-        $sensor->setName($name);
-        $sensor->setCategory($category);
-        $sensor->setRoom($room);
-
-        $entityManager->persist($sensor);
-        $entityManager->flush();
-    }
 
 
 }

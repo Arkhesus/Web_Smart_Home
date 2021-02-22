@@ -9,3 +9,7 @@ category:
 update :
     path : /update/{name}
     controller : App\Controller\Update::display
+
+newSensor :
+    path  : /newSensor
+    controller : App\Controller\newSensor::AddSensor

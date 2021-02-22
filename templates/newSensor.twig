@@ -11,28 +11,33 @@
 <body>
     <div class="title"><h1 style ="margin-left : 15px;">Connect with your smart house !</h1>
     </div>  
-    <div> 
-        <h3>{{sensor.name}}</h3>
+    <div style = "margin-left : 15px;">
+        <h3>Add your new sensor here ! </h3>
         
-        {{form_start(formUpdate)}}
+        {{form_start(formNewSensor)}}
 
             <div class="from-group">
+                <label for="">Name : </label>
+                {{form_widget(formNewSensor.Name)}} <br>
+
                 <label for="">Category : </label>
-                {{form_widget(formUpdate.Category)}} <br>
+                {{form_widget(formNewSensor.Category)}} <br>
 
                 <label for="">Room : </label>
-                {{form_widget(formUpdate.Room)}}<br>
+                {{form_widget(formNewSensor.Room)}}<br>
 
-                {{form_widget(formUpdate.save, {'attr': {'class' : "btn btn-success"}})}}<br>
-            </div>
+                {# {{form_widget(formNewSensor.save, {'attr': {'class' : "btn btn-success"}})}}<br>
+            </div> #}
+                <button type="submit">Create</button>
         
-        {{form_end(formUpdate)}}
-    </div>
-    <div>
+        {{form_end(formNewSensor)}}
+
         <form action = "/menu">
             <button onclick= "/menu" class="btn btn-warning">Back to menu</button>
         </form>
     </div>
+
+  
 
 </body>
 </html>
