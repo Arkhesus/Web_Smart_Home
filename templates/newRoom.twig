@@ -5,29 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="css/menu.css">
     <title>Update information</title>
 </head>
 <body>
     <div class="title"><h1 style ="margin-left : 15px;">Connect with your smart house !</h1>
-    </div>
-    <div class="formNew" style = "height : 210px;"> 
-        <div> 
-            <h3>{{sensor.name}}</h3>
+    </div> 
+    <div class = "formNew">
+        <div > 
+            <h3>Create a new room !</h3>
             
-            {{form_start(formUpdate)}}
+            {{form_start(formRoom)}}
 
                 <div class="from-group">
-                    <label for="">Category : </label>
-                    {{form_widget(formUpdate.Category,{'attr': { "style" : "margin-bottom : 10px;"}})}} <br>
+                    <label for="">Name of the room : </label>
+                    {{form_widget(formRoom.Name)}}<br>
 
-                    <label for="">Room : </label>
-                    {{form_widget(formUpdate.Room,{'attr': { "style" : "margin-left : 20px;"}})}}<br>
-
-                    {{form_widget(formUpdate.save, {'attr': {'class' : "btn btn-success", "style" : "margin-top : 10px;"}})}}<br>
+                    {{form_widget(formRoom.save, {'attr': {'class' : "btn btn-success", "style" : "margin-top : 10px;"}})}}<br>
                 </div>
             
-            {{form_end(formUpdate)}}
+            {{form_end(formRoom)}}
         </div>
         <div>
             <form action = "/menu" style = "float : right;">

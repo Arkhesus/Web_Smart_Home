@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Category;
 use App\Entity\Room;
@@ -38,15 +39,20 @@ class Update extends AbstractController
 
         $form = $this->createForms($sensor, $request, $name);
 
+        if($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute("menu");
+        }else{
+            return $this->render('update.twig', [
+                "sensor" => $sensor,
+                'formUpdate' => $form->createView()
+            ]);
+        }
 
-        return $this->render('update.twig', [
-            "sensor" => $sensor,
-            'formUpdate' => $form->createView()
-        ]);
+        
     }
     
 
-    public function AddCategory(string $name, string $newCategory){
+    public function AddCategory(string $name, Category $newCategory){
         $entityManager = $this->getDoctrine()->getManager();
         $product = $entityManager->getRepository(Sensors::class)->findBy(["Name" => $name]);
 
@@ -66,8 +72,18 @@ class Update extends AbstractController
     public function createForms(Sensors $sensor, Request $request, string $name) {
         
         $form = $this->createFormBuilder($sensor)
-            ->add('Category' , TextType::class)
-            ->add('Room', TextType::class)
+            ->add('Category' , EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'Name',
+                "choice_value" => 'Name',
+                'required' => false,
+            ])
+            ->add('Room' , EntityType::class, [
+                'class' => Room::class,
+                'choice_label' => 'Name',
+                "choice_value" => 'Name',
+                'required' => false,
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Update ' .$name
             ])
@@ -78,14 +94,16 @@ class Update extends AbstractController
       
         dump($sensor);
 
-        $this->AddRoom($sensor->getName(), $sensor->getRoom());
-        $this->AddCategory($sensor->getName(), $sensor->getCategory());
+        if($form->isSubmitted() && $form->isValid()){
+            $this->AddRoom($sensor->getName(), $sensor->getRoom());
+            $this->AddCategory($sensor->getName(), $sensor->getCategory());
+        }
 
 
         return $form;
     }
 
-    public function AddRoom(string $name, string $newRoom){
+    public function AddRoom(string $name, Room $newRoom){
         $entityManager = $this->getDoctrine()->getManager();
         $product = $entityManager->getRepository(Sensors::class)->findBy(["Name" => $name]);
 
@@ -103,7 +121,7 @@ class Update extends AbstractController
 
     }
 
-    public function DeleteRoom(string $room)
+    public function DeleteRoom(Room $room)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $product = $entityManager->getRepository(Room::class)->findBy(["Name" => $room]);
@@ -124,7 +142,7 @@ class Update extends AbstractController
         }
     }
 
-    public function DeleteCategory(string $category)
+    public function DeleteCategory(Category $category)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $product = $entityManager->getRepository(Category::class)->findBy(["Name" => $category]);
@@ -151,20 +169,7 @@ class Update extends AbstractController
         
     }
 
-    public function DeleteSensor(int $id)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $product = $entityManager->getRepository(Sensors::class)->find($id);
-
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$id
-            );
-        }
-
-        $entityManager->remove($product);
-        $entityManager->flush();  
-    }
+    
 
     public function CreateCategory(string $name)
     {
@@ -177,16 +182,6 @@ class Update extends AbstractController
         $entityManager->flush();
     }
 
-    public function CreateRoom(string $name)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $room = new Room();
-        $room->setName($name);
-
-        $entityManager->persist($room);
-        $entityManager->flush();
-    }
 
 
 

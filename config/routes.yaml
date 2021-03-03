@@ -2,7 +2,7 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-category:
+menu:
     path : /menu
     controller : App\Controller\Filter::list
 
@@ -13,3 +13,15 @@ update :
 newSensor :
     path  : /newSensor
     controller : App\Controller\newSensor::AddSensor
+
+newroom :
+    path : /newRoom
+    controller : App\Controller\newRoom::AddRoom
+
+newcategory :
+    path : /newCategory
+    controller : App\Controller\newCategory::AddCategory
+
+delete :
+    path : /deleteSensor/{id}
+    controller : App\Controller\DeleteSensor::DeleteSensor

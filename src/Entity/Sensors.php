@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\SensorsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Category;
+use App\Entity\Room;
 
 /**
  * @ORM\Entity(repositoryClass=SensorsRepository::class)
@@ -22,14 +24,17 @@ class Sensors
      */
     private $Name;
 
-    /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+        /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room")
+     * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
      */
     private $Room;
 
-    /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+        /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
+
     private $Category;
 
     public function getId(): ?int
@@ -49,24 +54,24 @@ class Sensors
         return $this;
     }
 
-    public function getRoom(): ?string
+    public function getRoom()
     {
         return $this->Room;
     }
 
-    public function setRoom(?string $Room): self
+    public function setRoom(Room $Room): self
     {
         $this->Room = $Room;
 
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCategory()
     {
         return $this->Category;
     }
 
-    public function setCategory(?string $Category): self
+    public function setCategory(Category $Category): self
     {
         $this->Category = $Category;
 

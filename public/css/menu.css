@@ -40,7 +40,7 @@
   }
 
 .filtre{
-  padding : 5px 10px 10px 10px;
+  padding-bottom : 10px;
   }
 
 .columns {
@@ -50,11 +50,29 @@
 .colspec {
   padding-right : 10px;
 }
+
+
 .newBtn{
   display : flex;
-  padding-bottom : 10px;
+
 }
 
 .btncreate {
   display : flex;
+
 }
+
+.forms {
+  display : flex;
+}
+
+.formNew {
+  margin-left : 10px;
+  width : 310px;
+  height : 200px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  margin-left : 15px;
+  padding: 10px;
+}
+

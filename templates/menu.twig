@@ -11,62 +11,94 @@
     <body>
         <div class="title"><h1 style ="margin-left : 15px;">Connect with your smart house !</h1>
         </div>  
-        <div class="specs">
-            <form onsubmit="" method="post" class = "filtre" >
-                
-                <div class ="columns">
+        <div class="specs">           
                     <div class = "colspec">
-                        <div><h3>Categories</h3>
-                        </div>
-                        <div class="form-check">    
-                            {% for category in categories%}
-                                <input class="form-check-input" type="checkbox" id="{{category.name}}"></input>
-                                <label class="form-check-label" for="{{category.name}}">{{category.name}}</label><br>
-                            {%endfor%}
-                        </div>
-                    </div>
-                    <div class = "colspec">
-                        <div><h3>Rooms</h3>
-                        </div>
-                        <div class="form-check">
-                            {% for room in rooms%}
-                                <input class="form-check-input" type="checkbox" id="{{room.name}}"></input>
-                                <label class="form-check-label" for="{{room.name}}">{{room.name}}</label><br>
-                            {%endfor%}
-                        </div>
-                    </div>
-                </div>
+                        {# <div class="form-check">     #}
+                            {{form_start(formFilter)}}
 
-                <div class ="newBtn">
-                    <button type="button" class="btn btn-secondary" style ="margin-right : 15px;">New Category</button>
-                    <button type="button" class="btn btn-secondary">New Room</button> 
+                                <div class="from-group" style="margin-left : 15px;">
+                                    <label for="">Category : </label>
+                                    {{form_widget(formFilter.Category)}} <br>
+
+                                    <label for="">Room : </label>
+                                    {{form_widget(formFilter.Room,{'attr': { "style" : "margin-left : 20px; margin-top : 10px;"}})}}<br>
+
+                                    {# {{form_widget(formNewSensor.save, {'attr': {'class' : "btn btn-success"}})}}<br>
+                                </div> #}
+                                    <button type="submit" class="btn btn-primary" style="margin-top : 10px; margin-bottom : 10px;">Filter</button><br>
+                            
+                            {{form_end(formFilter)}}
+                        {# </div> #}
+                    </div>
+            <div>
+                <div class="newBtn">
+                    <form action="/newRoom" class="forms">
+                                <button onclick = "/newRoom" class="btn btn-secondary" style="margin-left: 10px; width:115px;">New Room</button>
+                    </form>
+                    <form action="/newCategory" class="forms">
+                                <button onclick = "/newCategory" class="btn btn-secondary" style="margin-left:10px;">New Category</button>
+                    </form>
                 </div>
-                <button type="button" class="btn btn-primary">Filter</button><br>  
-            </form>
+            </div>
+            
             <form action = "/newSensor" >
-                <button onclick= "/newSensor" class="btn btn-secondary" style =" margin-top: 10px;">Create a new sensor</button>
+                <button onclick= "/newSensor" class="btn btn-secondary" style = "margin-left: 10px; width : 250px;margin-top:10px;">Create a new sensor</button>
             </form>
+
+            
+
         </div>
         <div>
             
         </div>
-        <div class = "cards">
+        
+    </div>
+
+
+
+    <div class = "cards">
             {% for sensor in sensors %}
                 <div class="div1"> 
                     <h3>{{sensor.name}}</h3>
-                    <h5>Category : {{sensor.category}}</h5>
-                    <h5>Room : {{sensor.room}}</h5>
+                    <h5>Category : {{sensor.category.name}}</h5>
+                    <h5>Room : {{sensor.room.name}}</h5>
 
                     <div class="button">
-                        <button type="button" id="{{sensor.name}}" class="btn btn-success" style="margin-right:5px;">Activate {{sensor.name}}</button>
+                        <button onclick = "Activated('{{sensor.name}}')" type="button" id="{{sensor.name}}" class="btn btn-success Activate" style="margin-right:5px;">Activate {{sensor.name}}</button>
                         <form action = "/update/{{sensor.name}}">
                             <button onclick= "/update/{{sensor.name}}" class="btn btn-warning">Update</button>
+                        </form>
+                    </div>
+                    <div>
+                        <form action = "/deleteSensor" class = "danger">
+                            <button onclick= "/deleSensor/{{sensor.id}}" class="btn btn-danger" style="margin-top:10px;width : 98%;">Delete</button>
                         </form>
                     </div>
                     
                 </div>
             {%endfor%}
         </div>
-    </div>
+
+    <script>
+        function Activated(id) {
+            bouton = document.getElementById(id);
+
+            console.log(bouton.className);
+
+            if("btn btn-success Activate" == bouton.className){
+                bouton.classList.remove("btn-success");
+                bouton.classList.add("btn-info");
+            }else{
+                bouton.classList.remove("btn-info");
+                bouton.classList.remove("btn");
+                bouton.classList.remove("Activate");
+                bouton.classList.add("btn");
+                bouton.classList.add("btn-success");
+                bouton.classList.add("Activate");
+            }
+            
+        }
+    </script>
+
     </body>
 </html>

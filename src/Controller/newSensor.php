@@ -12,10 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Category;
-use App\Entity\Categorie;
 use App\Entity\Room;
 use App\Entity\Sensors;
-use PhpParser\Node\Name;
 
 
 class newSensor extends AbstractController
@@ -30,9 +28,13 @@ class newSensor extends AbstractController
 
         $form = $this->createForms($sensor, $request);
 
-        return $this->render('newSensor.twig', [
-            'formNewSensor' => $form->createView()
-        ]);
+        if($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute("menu");
+        }else{
+            return $this->render('newSensor.twig', [
+                'formNewSensor' => $form->createView()
+            ]);
+        }
 
         
     }
@@ -47,12 +49,14 @@ class newSensor extends AbstractController
                 'class' => Category::class,
                 'choice_label' => 'Name',
                 "choice_value" => 'Name',
-                'required' => false,
+                'required' => true,
             ])
-            ->add('Room' , TextType::class)
-            // ->add('save', SubmitType::class, [
-            //     'label' => 'Create '
-            // ])
+            ->add('Room' , EntityType::class, [
+                'class' => Room::class,
+                'choice_label' => 'Name',
+                "choice_value" => 'Name',
+                'required' => true,
+            ])
             ->getForm();
 
         dump($sensor);
@@ -60,6 +64,7 @@ class newSensor extends AbstractController
         dump($request);
 
         $form ->handleRequest($request);
+
 
       
         dump($sensor);
@@ -72,7 +77,7 @@ class newSensor extends AbstractController
     }
 
 
-    public function CreateSensor(string $name, string $category, string $room)
+    public function CreateSensor(string $name, Category $category, Room $room)
     {
         $entityManager = $this->getDoctrine()->getManager();
 

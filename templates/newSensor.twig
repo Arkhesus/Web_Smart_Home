@@ -10,31 +10,33 @@
 </head>
 <body>
     <div class="title"><h1 style ="margin-left : 15px;">Connect with your smart house !</h1>
-    </div>  
-    <div style = "margin-left : 15px;">
-        <h3>Add your new sensor here ! </h3>
-        
-        {{form_start(formNewSensor)}}
+    </div> 
+    <div class="formNew" style = "width : 400px; height : 250px;"> 
+        <div style = "margin-left : 15px;">
+            <h3>Add your new sensor here ! </h3>
+            
+            {{form_start(formNewSensor)}}
 
-            <div class="from-group">
-                <label for="">Name : </label>
-                {{form_widget(formNewSensor.Name)}} <br>
+                <div class="from-group">
+                    <label for="">Name : </label>
+                    {{form_widget(formNewSensor.Name,{'attr': { "style" : "margin-left : 20px; margin-bottom : 10px;"}})}} <br>
 
-                <label for="">Category : </label>
-                {{form_widget(formNewSensor.Category)}} <br>
+                    <label for="">Category : </label>
+                    {{form_widget(formNewSensor.Category,{'attr': { "style" : "margin-bottom : 10px;"}})}} <br>
 
-                <label for="">Room : </label>
-                {{form_widget(formNewSensor.Room)}}<br>
+                    <label for="">Room : </label>
+                    {{form_widget(formNewSensor.Room,{'attr': { "style" : "margin-left : 20px;"}})}}<br>
 
-                {# {{form_widget(formNewSensor.save, {'attr': {'class' : "btn btn-success"}})}}<br>
-            </div> #}
-                <button type="submit">Create</button>
-        
-        {{form_end(formNewSensor)}}
+                    {# {{form_widget(formNewSensor.save, {'attr': {'class' : "btn btn-success"}})}}<br>
+                </div> #}
+                    <button type="submit" class ="btn btn-success" style = "margin-top : 10px;">Create</button><br>
+            
+            {{form_end(formNewSensor)}}
 
-        <form action = "/menu">
-            <button onclick= "/menu" class="btn btn-warning">Back to menu</button>
-        </form>
+            <form action = "/menu" style = "float : right;">
+                <button onclick= "/menu" class="btn btn-warning">Back to menu</button>
+            </form>
+        </div>
     </div>
 
   
