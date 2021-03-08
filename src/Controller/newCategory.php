@@ -23,12 +23,16 @@ class newCategory extends AbstractController
 
         $form = $this->createForms($category, $request);
 
+        $formDelete = $this->createFormsDelete($category, $request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if($formDelete->isSubmitted() && $formDelete->isValid()) {
+            return $this->redirectToRoute("menu");
+        }else if($form->isSubmitted() && $form->isValid()) {
             return $this->redirectToRoute("menu");
         }else{
             return $this->render('newCategory.twig', [
-                "formCategory" => $form->createView()
+                "formCategory" => $form->createView(),
+                "formDelete" => $formDelete->createView()
             ]);
         }
     }
@@ -55,6 +59,33 @@ class newCategory extends AbstractController
         return $form;
     }
 
+    public function createFormsDelete(Category $category, Request $request) {
+
+        $sensor = new Sensors();
+        
+        $form = $this->createFormBuilder($sensor)
+            ->add('Category' , EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'Name',
+                "choice_value" => 'Name',
+                'required' => false,
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Delete '
+            ])
+            ->getForm();
+
+        $form ->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->DeleteCategory($sensor->getCategory());
+        }
+
+
+        return $form;
+    }
+
     public function CreateCategory(string $name)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -64,6 +95,30 @@ class newCategory extends AbstractController
 
         $entityManager->persist($category);
         $entityManager->flush();
+    }
+
+    public function DeleteCategory(Category $category){
+
+
+        if($category->getName() != "None"){
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $product = $entityManager->getRepository(Sensors::class)->findBy(["Category" => $category]);
+            dump($product);
+
+            $none = $entityManager->getRepository(Category::class)->findBy(["Name" => "None"]);
+            dump($none);
+
+            foreach($product as $p){
+                $p->setCategory($none[0]);
+                $entityManager->persist($p);
+            }
+
+            $entityManager->remove($category);
+            $entityManager->flush();
+        
+        }
+        
     }
 
 

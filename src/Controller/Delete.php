@@ -10,11 +10,8 @@ use App\Entity\Category;
 use App\Entity\Room;
 use App\Entity\Sensors;
 
-class DeleteSensor extends AbstractController
+class Delete extends AbstractController
 {
-    /**
-     * @Route("/test", name="test_list")
-     */
     public function DeleteSensor($id)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -27,6 +24,17 @@ class DeleteSensor extends AbstractController
             );
         }
 
+        $cat = New Category();
+        $room = New Room();
+        $cat->setName("");
+        $room->setName("");
+
+        $product->setCategory($cat);
+        $product->setRoom($room);
+
+        dump($product);
+
+        $entityManager->persist($product);
         $entityManager->remove($product);
         $entityManager->flush();  
 

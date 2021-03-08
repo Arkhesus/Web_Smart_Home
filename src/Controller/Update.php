@@ -121,26 +121,7 @@ class Update extends AbstractController
 
     }
 
-    public function DeleteRoom(Room $room)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $product = $entityManager->getRepository(Room::class)->findBy(["Name" => $room]);
 
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$room
-            );
-        }
-
-        $entityManager->remove($product[0]);
-        $sensors = $entityManager->getRepository(Sensors::class)->findBy(["Room" => $room]);
-        $entityManager->flush();
-
-        foreach($sensors as $sensor)
-        {
-            $this->AddRoom($sensor->getName(), "" );
-        }
-    }
 
     public function DeleteCategory(Category $category)
     {

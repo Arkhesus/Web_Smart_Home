@@ -11,27 +11,52 @@
 <body>
     <div class="title"><h1 style ="margin-left : 15px;">Connect with your smart house !</h1>
     </div> 
-    <div class = "formNew"> 
-        <div> 
-            <h3>Create a new category !</h3>
-            
-            {{form_start(formCategory)}}
+        <div class = "bloc" > 
+            <div class = "formNew" style = "width : 330px;">
 
-                <div class="from-group">
-                    <label for="">Name of the room : </label>
-                    {{form_widget(formCategory.Name)}}<br>
+                <div>
+                    <h3>Create a new category !</h3>
+                    
+                    {{form_start(formCategory)}}
 
-                    {{form_widget(formCategory.save, {'attr': {'class' : "btn btn-success", "style" : "margin-top : 10px;"}})}}<br>
+                        <div class="from-group">
+                            <label for="">Name of the category : </label>
+                            {{form_widget(formCategory.Name)}}<br>
+
+                            {{form_widget(formCategory.save, {'attr': {'class' : "btn btn-success", "style" : "margin-top : 10px;"}})}}<br>
+                        </div>
+                    
+                    {{form_end(formCategory)}}
+
+                
+                    <form action = "/" style = "float : right;">
+                        <button onclick= "/" class="btn btn-warning">Back to menu</button>
+                    </form>
                 </div>
-            
-            {{form_end(formCategory)}}
+            </div>
+
+            <div class = "formNew" style = "width : 330px;">
+                <div style = "height : 200px;">
+                    <h3>Delete a category !</h3>
+                    
+                    {{form_start(formDelete)}}
+
+                        <div class="from-group">
+                            <label for="">Name of the room : </label>
+                            {{form_widget(formDelete.Category)}}<br>
+
+                            {{form_widget(formDelete.save, {'attr': {'class' : "btn btn-danger", "style" : "margin-top : 10px;"}})}}<br>
+                        </div>
+                    
+                    {{form_end(formDelete)}}
+
+                
+                    <form action = "/" style = "float : right;">
+                        <button onclick= "/" class="btn btn-warning">Back to menu</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div>
-            <form action = "/" style = "float : right;">
-                <button onclick= "/" class="btn btn-warning">Back to menu</button>
-            </form>
-        </div>
-    </div>
 
 </body>
 </html>

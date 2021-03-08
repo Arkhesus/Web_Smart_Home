@@ -8,30 +8,36 @@
     <link rel="stylesheet" href="css/menu.css">
     <title>Update information</title>
 </head>
+
 <body>
-    <div class="title"><h1 style ="margin-left : 15px;">Connect with your smart house !</h1>
-    </div> 
-    <div class = "formNew">
-        <div > 
-            <h3>Create a new room !</h3>
-            
+    <div class="title"><h1 style ="margin-left : 15px;">Connect with your smart house !</h1></div>
+    <div class="bloc">
+        <div class = "formNew">
             {{form_start(formRoom)}}
-
-                <div class="from-group">
-                    <label for="">Name of the room : </label>
-                    {{form_widget(formRoom.Name)}}<br>
-
-                    {{form_widget(formRoom.save, {'attr': {'class' : "btn btn-success", "style" : "margin-top : 10px;"}})}}<br>
-                </div>
-            
+            <h3>Create a new room !</h3>
+            <div class="from-group">
+                <label for="">Name of the room : </label>
+                {{form_widget(formRoom.Name)}}<br>
+                {{form_widget(formRoom.save, {'attr': {'class' : "btn btn-success", "style" : "margin-top : 10px;"}})}}<br>
+            </div>
             {{form_end(formRoom)}}
+            <form action = "/" style = "float : right;">
+                <button onclick= "/" class="btn btn-warning">Back to menu</button>
+            </form>
         </div>
-        <div>
+        <div class = "formNew">
+            {{form_start(formDelete)}}
+            <h3>Delete a room !</h3>
+            <div class="from-group">
+                <label for="">Name of the room : </label>
+                {{form_widget(formDelete.Room)}}<br>
+                {{form_widget(formDelete.save, {'attr': {'class' : "btn btn-danger", "style" : "margin-top : 10px;"}})}}<br>
+            </div>  
+            {{form_end(formDelete)}}
             <form action = "/" style = "float : right;">
                 <button onclick= "/" class="btn btn-warning">Back to menu</button>
             </form>
         </div>
     </div>
-
 </body>
 </html>

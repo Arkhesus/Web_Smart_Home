@@ -25,13 +25,13 @@ class Sensors
     private $Name;
 
         /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Room")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room", cascade="remove")
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
      */
     private $Room;
 
         /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", cascade="remove")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
 
@@ -77,4 +77,5 @@ class Sensors
 
         return $this;
     }
+
 }

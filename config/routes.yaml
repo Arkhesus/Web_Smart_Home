@@ -24,4 +24,4 @@ newcategory :
 
 delete :
     path : /deleteSensor/{id}
-    controller : App\Controller\DeleteSensor::DeleteSensor
+    controller : App\Controller\Delete::DeleteSensor

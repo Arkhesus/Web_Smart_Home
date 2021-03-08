@@ -21,19 +21,25 @@ class newRoom extends AbstractController
 
         $room = New Room();
 
-        $form = $this->createForms($room, $request);
+        $form = $this->createFormsNew($room, $request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        $formDelete = $this->createFormsDelete($room, $request);
+
+        if($formDelete->isSubmitted() && $formDelete->isValid()) {
+            return $this->redirectToRoute("menu");
+        }else if($form->isSubmitted() && $form->isValid()) {
             return $this->redirectToRoute("menu");
         }else{
             return $this->render('newRoom.twig', [
-                "formRoom" => $form->createView()
+                "formRoom" => $form->createView(),
+                "formDelete" => $formDelete->createView()
             ]);
         }
+
     }
     
 
-    public function createForms(Room $room, Request $request) {
+    public function createFormsNew(Room $room, Request $request) {
         
         $form = $this->createFormBuilder($room)
             ->add('Name' , TextType::class)
@@ -53,6 +59,33 @@ class newRoom extends AbstractController
         return $form;
     }
 
+    public function createFormsDelete(Room $room, Request $request) {
+
+        $sensor = new Sensors();
+        
+        $form = $this->createFormBuilder($sensor)
+            ->add('Room' , EntityType::class, [
+                'class' => Room::class,
+                'choice_label' => 'Name',
+                "choice_value" => 'Name',
+                'required' => false,
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Delete '
+            ])
+            ->getForm();
+
+        $form ->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->DeleteRoom($sensor->getRoom());
+        }
+
+
+        return $form;
+    }
+
     public function CreateRoom(string $name)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -62,6 +95,29 @@ class newRoom extends AbstractController
 
         $entityManager->persist($room);
         $entityManager->flush();
+    }
+
+    public function DeleteRoom(Room $room)
+    {
+        if($room->getName() != "None"){
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $product = $entityManager->getRepository(Sensors::class)->findBy(["Room" => $room]);
+            dump($product);
+
+            $none = $entityManager->getRepository(Category::class)->findBy(["Name" => "None"]);
+            dump($none);
+
+            foreach($product as $p){
+                $p->setRoom($none[0]);
+                $entityManager->persist($p);
+            }
+
+            $entityManager->remove($room);
+            $entityManager->flush();
+        
+        }
+      
     }
 
 
