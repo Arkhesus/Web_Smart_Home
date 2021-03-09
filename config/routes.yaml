@@ -4,24 +4,24 @@
 
 menu:
     path : /
-    controller : App\Controller\Filter::list
+    controller : App\Controller\SensorsController::list
 
 update :
     path : /update/{name}
-    controller : App\Controller\Update::display
+    controller : App\Controller\SensorsController::display
 
 newSensor :
     path  : /newSensor
-    controller : App\Controller\newSensor::AddSensor
+    controller : App\Controller\SensorsController::AddSensor
 
 newroom :
     path : /newRoom
-    controller : App\Controller\newRoom::AddRoom
+    controller : App\Controller\RoomController::AddRoom
 
 newcategory :
     path : /newCategory
-    controller : App\Controller\newCategory::AddCategory
+    controller : App\Controller\CategoryController::AddCategory
 
 delete :
     path : /deleteSensor/{id}
-    controller : App\Controller\Delete::DeleteSensor
+    controller : App\Controller\SensorsController::DeleteSensor

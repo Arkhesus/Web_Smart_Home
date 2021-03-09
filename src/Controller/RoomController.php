@@ -14,7 +14,7 @@ use App\Entity\Category;
 use App\Entity\Room;
 use App\Entity\Sensors;
 
-class newRoom extends AbstractController
+class RoomController extends AbstractController
 {
 
     public function AddRoom(Request $request){
