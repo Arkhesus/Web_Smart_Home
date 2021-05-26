@@ -6,6 +6,7 @@ use App\Repository\SensorsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Category;
 use App\Entity\Room;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SensorsRepository::class)
@@ -16,23 +17,28 @@ class Sensors
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(groups = {"put"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank(groups = {"post", "delete","put"})
+     
      */
     private $Name;
 
         /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Room", cascade="remove")
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
+     * @Assert\NotBlank(groups = {"post", "delete","put"})
      */
     private $Room;
 
         /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", cascade="remove")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @Assert\NotBlank(groups = {"post", "delete","put"})
      */
 
     private $Category;

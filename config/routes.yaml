@@ -1,7 +1,3 @@
-# index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-
 menu:
     path : /
     controller : App\Controller\SensorsController::list
@@ -25,3 +21,15 @@ newcategory :
 delete :
     path : /deleteSensor/{id}
     controller : App\Controller\SensorsController::DeleteSensor
+
+api_category :
+    path : /api/category/{name?}
+    controller : App\Controller\CategoryController
+
+api_room :
+    path : /api/room/{name?}
+    controller : App\Controller\RoomController
+
+api_sensor :
+    path : /api/sensor/{name?}
+    controller : App\Controller\SensorsController
